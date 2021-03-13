@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:control_pad/control_pad.dart';
+import 'package:snake/widgets/gamecontroller.dart';
 
 class Controller extends StatelessWidget {
   final double sizeOfJoyStick;
   final Function updateDirection;
+  final int player;
 
-  Controller(this.sizeOfJoyStick, this.updateDirection);
+  Controller(this.sizeOfJoyStick, this.updateDirection, this.player);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: Colors.black,
-        child: JoystickView(
-          showArrows: false,
-          size: sizeOfJoyStick,
-          backgroundColor: Colors.red,
-          innerCircleColor: Colors.orange,
-          onDirectionChanged: (double angle, _) {
-            updateDirection(angle);
-          },
-          opacity: 0.7,
-          interval: null,
-        ),
+    return Container(
+      width: double.infinity,
+      color: Colors.black87,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+            width: double.infinity,
+          ),
+          Container(
+            child: GameController(sizeOfJoyStick, updateDirection, player),
+            alignment: Alignment.centerRight,
+          ),
+        ],
       ),
     );
   }
