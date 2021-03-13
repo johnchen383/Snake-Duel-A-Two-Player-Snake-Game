@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:snake/widgets/controller.dart';
+import 'package:snake/widgets/control_area.dart';
+// import 'package:snake/widgets/controller.dart';
 import 'package:snake/widgets/game_board.dart';
 import 'dart:async';
 import 'dart:math';
@@ -224,25 +225,27 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
-    final sizeOfJoyStick =
-        (deviceHeight - (deviceWidth / numSquaresAcross * numSquaresDown)) *
-            0.4;
+    // final deviceHeight = MediaQuery.of(context).size.height;
+    // final deviceWidth = MediaQuery.of(context).size.width;
+    // final sizeOfJoyStick =
+    //     (deviceHeight - (deviceWidth / numSquaresAcross * numSquaresDown)) *
+    //         0.4;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Transform.rotate(
-              angle: pi,
-              child: Controller(sizeOfJoyStick, updateToggleDirection, 2),
-            ),
-          ),
+          // Expanded(
+          //   child: Transform.rotate(
+          //     angle: pi,
+          //     child: Controller(sizeOfJoyStick, updateToggleDirection, 2),
+          //   ),
+          // ),
+          ControlArea(updateToggleDirection, 1),
           GameBoard(numSquaresAcross, numSquaresDown, snake1, snake2, food),
-          Expanded(
-            child: Controller(sizeOfJoyStick, updateToggleDirection, 1),
-          ),
+          ControlArea(updateToggleDirection, 2),
+          // Expanded(
+          //   child: Controller(sizeOfJoyStick, updateToggleDirection, 1),
+          // ),
         ],
       ),
     );
