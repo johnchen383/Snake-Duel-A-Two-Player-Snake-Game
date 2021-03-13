@@ -47,11 +47,14 @@ class _GamePageState extends State<GamePage> {
     snakeDir1 = dir1;
     snakeDir2 = dir2;
     generateSnakes();
-    Timer.periodic(Duration(milliseconds: 250), (Timer timer) {
+    Timer.periodic(Duration(milliseconds: 50), (Timer timer) {
       if (gameOver == 0) {
-        updateSnake(snake1, snakeDir1);
-        updateSnake(snake2, snakeDir2);
-        if (timer.tick % 10 == 0) {
+        updateSnakeDirection();
+        if (timer.tick % 5 == 0) {
+          updateSnake(snake1, snakeDir1);
+          updateSnake(snake2, snakeDir2);
+        }
+        if (timer.tick % 50 == 0) {
           if (food.length < 3) {
             food.add(addItem());
           }
@@ -74,7 +77,6 @@ class _GamePageState extends State<GamePage> {
 
   void updateSnake(List<int> snake, int snakeDir) {
     bool isSnake1 = snake == snake1;
-    updateSnakeDirection();
     setState(() {
       switch (snakeDir) {
         case 3:
@@ -120,12 +122,12 @@ class _GamePageState extends State<GamePage> {
       }
 
       if (isSnake1) {
-        if (snake2.sublist(0, snake2.length - 2).contains(snake1.last)) {
+        if (snake2.sublist(0, snake2.length - 1).contains(snake1.last)) {
           //snake1 ate snake 2
           gameOver = 2;
         }
       } else {
-        if (snake1.sublist(0, snake1.length - 2).contains(snake2.last)) {
+        if (snake1.sublist(0, snake1.length - 1).contains(snake2.last)) {
           //snake2 ate snake 1
           gameOver = 5;
         }
@@ -141,11 +143,30 @@ class _GamePageState extends State<GamePage> {
 
   Text alertContent() {
     if (gameOver >= 4 && gameOver < 7) {
-      return Text('Player 1 Won!');
+      return Text(
+        'Player 1 Won!',
+        style: TextStyle(color: Colors.white),
+      );
     } else if (gameOver <= 3 && gameOver > 0) {
-      return Text('Player 2 Won!');
+      return Text(
+        'Player 2 Won!',
+        style: TextStyle(color: Colors.white),
+      );
     } else {
-      return Text('Its a tie!');
+      return Text(
+        'Its a tie!',
+        style: TextStyle(color: Colors.white),
+      );
+    }
+  }
+
+  Color chooseColour() {
+    if (gameOver < 4) {
+      return Colors.red[400];
+    } else if (gameOver < 7) {
+      return Colors.blue[400];
+    } else {
+      return Colors.blueGrey;
     }
   }
 
@@ -155,11 +176,26 @@ class _GamePageState extends State<GamePage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('GAME OVER'),
-          content: alertContent(),
+          title: Center(
+            child: Text(
+              'GAME OVER',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 32,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          backgroundColor: chooseColour(),
+          content: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            alertContent(),
+          ]),
           actions: <Widget>[
             TextButton(
-              child: Text('PLAY AGAIN'),
+              child: Text(
+                'P L A Y   A G A I N',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 gameOver = 0;
