@@ -1,4 +1,4 @@
-# snake
+# Snake Duel: A Two Player Snake Game
 
 A new Flutter project.
 
